@@ -1,0 +1,225 @@
+1] Write a shell script to accept c or C++ file from the user, compile it, execute this file and display the output.
+Code:
+vi 47.c
+--------
+#include<stdio.h>
+main()
+{
+printf("Hello World !!\n");
+}
+vi 471.c
+------------
+echo "Enter c program file"
+read f1
+if [ -f$f1 ]
+then
+echo "$f1 exist"
+echo "Compiling and executing $f1 file"
+cc -o a1.out $f1
+echo "The output of $f1 file is "
+./a1.out
+else
+echo "$f1 file does not exist."
+fi
+
+
+2] Create a file named test2 with fields rollNo, stud Name and marks. Fields are separated by colon. Write a shell script to perform the following options on that file
+
+i)	Display content of file
+ii)	Copy the given file
+iii)	Delete the given file
+iv)	Exit
+
+Code:	vi test2
+while [ true ]
+do
+echo "1.Display the contents of the	file:"
+echo "2.Copy the file "
+echo "3.Delete the file "
+echo "4.Exit"
+echo "Enter your choice:"
+
+read ch
+case $ch in
+1)echo "Display the content of the file"
+cat test1;;
+2)while [ true ]
+do
+echo "Enter the file name for copying "
+read f1
+if [ -f$f1 ]
+then
+echo "$f1 file already exist can't copy"
+
+else
+echo "$f1 doesn't exist. You can copy the contents"
+cp stud $f1
+echo "Target file"
+cat $f1
+break
+fi
+done;;
+
+3)echo "Now we are deleting the file "
+rm $f1
+echo "File deleted"
+;;
+4)echo “Exit”
+
+exit();;
+echo "Wrong choice";;
+*)break;;
+
+esac
+done
+
+
+
+3] Write a shell script to perform following operation on the file entered by the user.
+i)	Display content of file
+ii)	Copy the given file
+iii)	Rename the given file
+iv)	Delete the given file
+v)	Exit
+vi)	If above 4 are not there then print error message
+
+Code: vi	test3
+while [ true ]
+do
+echo "1.Display contents of file"
+echo "2.Copy the given file"
+echo "3.Rename the given file"
+echo "4.Delete the file "
+
+echo "5.Exit"
+echo "Enter the file name"
+read test2
+if [ -f$test2 ]
+then
+echo "Enter your choice"
+read ch
+case $ch in
+
+1)echo "Contents of file $test2 are:"
+cat $test2;;
+
+2)echo "Enter the target file"
+read $f2
+
+if [ -f$f2 ]
+then
+echo "$f2 already exists,can,t copy"
+else
+echo "$f2 doesn't exist"
+cp $test2 $f2
+echo "Target file"
+cat $f2
+fi
+;;
+
+3)echo "Enter new name for file"
+read nm
+
+mv $test2 $nm;;
+
+4)	echo "Deleting the file" rm $f2;;
+5)echo "Exit"
+exit 0;;
+*)break;;
+esac
+else
+echo "File doesn’t exists"
+
+fi
+done
+
+
+
+4] Write a shell script to add unique record in above file student.
+
+Code: vi	test4
+while [ true ]
+do
+echo "enter student rollno"
+read sno
+x=`grep -c "$sno" student`
+if [ $x -gt 0 ]
+then
+echo "$sno rollNo already exists"
+else
+echo "$sno doesn’t exists"
+
+echo "enter student name:"
+read nm
+echo "Enter students marks"
+
+read mrk
+echo "$sno:$nm:$mrk">>student
+echo "Record Added"
+echo "Now the contents of student file are:"
+cat student
+break
+fi
+done
+
+
+
+5] Create 2 files as follows Master Data(ProdNo, ProdNm, RateOfSale, Description) and Transdata(custData, ProdNo, CustNm, Units sold).Fields are separated by colon. Write a shell script to perform the following operations on these files.
+
+1)	Product Query
+2)	Customer Query
+3)	Exit
+
+Code:
+ProductQuery()
+{
+echo "enter product no "
+read pno
+echo "details of $pno product are "
+grep "$pno" MasterData
+
+echo "do you want to see another product (y/n) ? "
+read ans
+if [ $ans = "y" ]
+then
+ProductQuery
+else
+sh Q5
+fi
+break
+}
+
+CustomerQuery()
+{
+
+echo "enter customer code "
+read cno
+echo "details of $cno customer are "
+grep "$cno" TransData
+echo "do you want to see another customer(y/n) ?"
+read ans
+if [ $ans = "y" ]
+then
+CustomerQuery
+else
+sh Q5
+fi
+break
+
+}
+echo "Select your choice "
+echo "1. Product Query"
+echo "2. Customer Query"
+echo "3. Exit"
+while [ true ]
+do
+echo "Enter your Choice"
+read ch
+case $ch in
+1)ProductQuery;;
+2)CustomerQuery;;
+3)exit;;
+*)echo "Wrong Choice";;
+esac
+
+done
